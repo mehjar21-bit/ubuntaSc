@@ -15,6 +15,7 @@
  *   node scraper-v2.js --from=1000        # Начать с карты 1000
  *   node scraper-v2.js --to=5000          # Закончить на карте 5000
  *   node scraper-v2.js --headless         # Headless-режим
+ *   node scraper-v2.js --no-proxy         # Запуск без прокси (игнорирует конфиг)
  */
 
 require('dotenv').config();
@@ -55,6 +56,7 @@ let config = {
 
 let accounts = [];
 let headlessMode = false; // set by --headless or env HEADLESS=true
+let noProxy = false;     // set by --no-proxy
 
 // ==================== УТИЛИТЫ ====================
 
@@ -561,18 +563,31 @@ async function runWorker(workerId, startId, endId) {
   log(workerId, `Starting: cards ${startId} to ${endId}`);
   
   const account = getAccountForWorker(workerId);
-  let proxy = getProxyForWorker(workerId);
-  
-  // If account has its own proxy, prefer it over the global proxy list
-  if (account && account.proxy) {
-    log(workerId, `Using account-level proxy for ${account.name}`);
-    // store as object with url to match shape of config items
-    proxy = { url: account.proxy };
-  }
-  
   if (!account) {
     logError(workerId, 'No account available! Run with --setup first.');
     return;
+  }
+
+  // Proxy priority:
+  //   1. --no-proxy flag → no proxy for any worker
+  //   2. account.proxy is explicitly set (string) → use account proxy
+  //   3. account.proxy === null (explicitly disabled) → no proxy
+  //   4. account.proxy === undefined (not set) → fall back to global proxy list
+  let proxy = null;
+  if (noProxy) {
+    log(workerId, 'Proxy disabled via --no-proxy flag');
+  } else if (account.proxy !== undefined) {
+    // Account has explicit proxy setting (null = no proxy, string = use proxy)
+    if (account.proxy) {
+      proxy = { url: account.proxy };
+      log(workerId, `Using account-level proxy for ${account.name}`);
+    } else {
+      log(workerId, `Account ${account.name} has no proxy configured — running without proxy`);
+    }
+  } else {
+    // Fallback to global proxy list (round-robin)
+    proxy = getProxyForWorker(workerId);
+    if (proxy) log(workerId, `Using global proxy for ${account.name}`);
   }
   
   // Настройки браузера
@@ -976,6 +991,9 @@ async function main() {
     }
     if (arg === '--headless') {
       headlessMode = true;
+    }
+    if (arg === '--no-proxy') {
+      noProxy = true;
     }
   }
 
