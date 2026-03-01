@@ -1,0 +1,7 @@
+node_modules/
+.env
+scraper-accounts.json
+*.log
+*.tmp
+debug/
+.chromium_download.lock

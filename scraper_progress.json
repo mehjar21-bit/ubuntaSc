@@ -1,0 +1,52 @@
+{
+  "worker_6": {
+    "lastId": 51655,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_9": {
+    "lastId": 51930,
+    "processedCount": 91,
+    "errorCount": 0
+  },
+  "worker_4": {
+    "lastId": 51460,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_2": {
+    "lastId": 51270,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_7": {
+    "lastId": 51750,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_0": {
+    "lastId": 51070,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_5": {
+    "lastId": 51556,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_1": {
+    "lastId": 51170,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_8": {
+    "lastId": 51847,
+    "processedCount": 96,
+    "errorCount": 0
+  },
+  "worker_3": {
+    "lastId": 51360,
+    "processedCount": 96,
+    "errorCount": 0
+  }
+}
