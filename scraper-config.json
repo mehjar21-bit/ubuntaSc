@@ -23,7 +23,7 @@
   "proxies": [
     {
       "url": "https://Kv9UeH:wL2xbe@147.45.81.14:8000",
-      "enabled": true
+      "enabled": false
     }
   ],
   "workers": {
