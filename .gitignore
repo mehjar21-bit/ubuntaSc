@@ -3,5 +3,6 @@ node_modules/
 scraper-accounts.json
 *.log
 *.tmp
+logs.txt
 debug/
 .chromium_download.lock
